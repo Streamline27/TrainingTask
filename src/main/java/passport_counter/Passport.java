@@ -1,4 +1,4 @@
-package test;
+package passport_counter;
 
 import lombok.Builder;
 import lombok.Value;
