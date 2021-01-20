@@ -36,6 +36,10 @@ public class Passport {
                 .build();
     }
 
+    public boolean isValidPassport() {
+        return (isNorthPolePassport() || containsAllFields()) && hasValidFields();
+    }
+
     public boolean containsAllFields() {
         return birthYear != null &&
                 issueYear != null &&
@@ -45,10 +49,6 @@ public class Passport {
                 eyeColor != null &&
                 passportID != null &&
                 countryID != null;
-    }
-
-    public boolean isValidPassport() {
-        return (isNorthPolePassport() || containsAllFields()) &&hasValidFields();
     }
 
     private boolean isNorthPolePassport() {
@@ -88,19 +88,23 @@ public class Passport {
         boolean containsUnits = height.contains("cm") ^ height.contains("in"); // Only one of them
         if (containsUnits) {
             if (height.contains("cm")) {
-                return isNumberBetween(height.substring(0, height.indexOf("cm")), 150, 193);
+                return heightIsOfMetricBetween("cm", 150, 193);
             }
             if (height.contains("in")) {
-                return isNumberBetween(height.substring(0, height.indexOf("in")), 59, 76);
+                return heightIsOfMetricBetween("in", 59, 76);
             }
         }
         return false;
     }
 
+    private boolean heightIsOfMetricBetween(String metric, int from, int to) {
+        return isNumberBetween(height.substring(0, height.indexOf(metric)), from, to);
+    }
+
     private boolean isHairColorValid() {
-        return hairColor.startsWith("#") &&
-                COLOR_REGEX.matcher(hairColor.substring(1, 7)).matches() &&
-                hairColor.length() == 7;
+        return hairColor.length() == 7 &&
+                hairColor.startsWith("#") &&
+                COLOR_REGEX.matcher(hairColor.substring(1, 7)).matches();
     }
 
     private boolean isEyeColorValid() {
@@ -128,6 +132,4 @@ public class Passport {
             return false;
         }
     }
-
-
 }

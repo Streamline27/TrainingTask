@@ -8,13 +8,11 @@ import java.util.stream.Stream;
 
 public class Main {
 
-    public static final Function<String, String> REPLACE_NEW_LINE_WITH_SPACE =  it -> it.replace("\n", " ");
-
     public static final String DATA_TO_RUN = DataSets.COMPLETE_DATASET;
 
     public static void main(String[] args) {
         List<Passport> passports = Stream.of(DATA_TO_RUN.split("\n\n"))
-                .map(REPLACE_NEW_LINE_WITH_SPACE)
+                .map(it -> it.replace("\n", " "))
                 .map(Main::parseString)
                 .map(Passport::fromMap)
                 .filter(Passport::isValidPassport)
