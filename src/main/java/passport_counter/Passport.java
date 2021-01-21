@@ -85,14 +85,11 @@ public class Passport {
     }
 
     private boolean isHeightValid() {
-        boolean containsUnits = height.contains("cm") ^ height.contains("in"); // Only one of them
-        if (containsUnits) {
-            if (height.contains("cm")) {
-                return heightIsOfMetricBetween("cm", 150, 193);
-            }
-            if (height.contains("in")) {
-                return heightIsOfMetricBetween("in", 59, 76);
-            }
+        if (height.endsWith("cm")) {
+            return heightIsOfMetricBetween("cm", 150, 193);
+        }
+        if (height.endsWith("in")) {
+            return heightIsOfMetricBetween("in", 59, 76);
         }
         return false;
     }
